@@ -223,4 +223,4 @@ def diophantine_equation(variables:list,constant:int):
 
 
 if __name__=="__main__":
-    print(GCDn([13240210688278768,792388011857606],[False],))
+    print("Running wrong script")

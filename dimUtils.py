@@ -14,7 +14,7 @@ def print_GCD_history(history:list,values:list):
         for _, step2 in enumerate(step):
             print(f"{step2[0]}/{step2[1]} => {step2[2]}")
             divisor=step2[1]
-    print(f"GCD({values}) = {divisor}")
+    print(f"\nGCD({values}) = {divisor}")
 
 def diaphantine_min_positive(particular, generic):
     k=0
@@ -29,3 +29,6 @@ def diaphantine_solution(solution,k):
     particular_solution, generic_solution = solution
     xy=[particular_solution[0]+k*generic_solution[0],particular_solution[1]+k*generic_solution[1]]
     return xy
+
+if __name__=="__main__":
+    print("Running wrong script")
