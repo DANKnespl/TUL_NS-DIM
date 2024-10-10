@@ -1,28 +1,28 @@
 import dimUtils as extras
 import math
 
-def LCMn(values:list):
+def lcm(values:list):
     """Lowest Common Multiple for arbitrary number of integers
 
     Args:
         values (list): list of integers for which to find LCM
     """
-    def LCM(a:int,b:int):
+    def lcm2(a:int,b:int):
         """LCM of two numbers
         Args:
             a (int): Number 1
             b (int): Number 2
         """
-        return int(a*b/GCDn([a,b],[False]))    
+        return int(a*b/gcd([a,b],[False]))    
     
     if len(values)<2:
         return None
-    multiple=LCM(values[0],values[1])
+    multiple=lcm2(values[0],values[1])
     for i in range(2,len(values)):
-        multiple=LCM(values[i],multiple)
+        multiple=lcm2(values[i],multiple)
     print(f"LCM({values}) = {multiple}")
     return multiple
-def GCDn(values:list,flags:list):
+def gcd(values:list,flags:list):
     """Greatest Common Divisor for arbitrary number of integers
 
     Args:
@@ -30,7 +30,7 @@ def GCDn(values:list,flags:list):
         dFlag (bool): Flag to print the steps of the Euclidean algorithm
         hFlag (bool): Flag to return the steps of the Euclidean algorithm
     """
-    def GCD(a:int,b:int):
+    def gcd2(a:int,b:int):
         """GCD of two integers
         Args:
             a (int): Number 1 
@@ -53,10 +53,10 @@ def GCDn(values:list,flags:list):
 
     if len(values)<2:
         return None
-    [divisor,tmp]=GCD(values[0],values[1])
+    [divisor,tmp]=gcd2(values[0],values[1])
     history=[tmp]
     for i in range(2,len(values)):
-        [divisor,tmp]=GCD(divisor,values[i])
+        [divisor,tmp]=gcd2(divisor,values[i])
         history.append(tmp)
     if flags[0]:
         extras.print_GCD_history(history,values)
@@ -64,7 +64,7 @@ def GCDn(values:list,flags:list):
         return divisor,history
     return divisor
 
-def getPrimeFactors(number:int):
+def get_prime_factors(number:int):
     """Function for calculating prime factors of integer
 
     Args:
@@ -95,7 +95,7 @@ def euler_function(number:int):
         int: Number of integers k <= n, for which GCD(k,n) > 1
     """
     
-    primes = getPrimeFactors(number)
+    primes = get_prime_factors(number)
     product=1
     for key,max_exponent in primes.items():
         product *= (pow(key,max_exponent)-pow(key,max_exponent-1))
@@ -108,7 +108,7 @@ def sum_of_divisors(number:int):
     Returns:
         int: sum of divisors
     """
-    primes = getPrimeFactors(number)
+    primes = get_prime_factors(number)
     tmp_sum=0
     product=1
     for key,max_exponent in primes.items():
@@ -124,7 +124,7 @@ def num_of_divisors(number:int):
     Returns:
         int: number of divisors
     """
-    primes = getPrimeFactors(number)
+    primes = get_prime_factors(number)
     nDiv=1
     for exponent in primes.values():
         nDiv=nDiv*(1+exponent)
@@ -141,7 +141,7 @@ def moebius_function(number:int):
     Returns:
         int: {-1,0,1} 
     """
-    primes = getPrimeFactors(number)
+    primes = get_prime_factors(number)
     for val in primes.values():
         if val > 1:
             return 0
@@ -152,13 +152,13 @@ def diophantine_equation(variables:list,constant:int):
         variables (list): [q_x,q_y]
         constant (int): right side value
     """
-    def getParticular(values:list,variables:list,gcd:int):
+    def get_particular(values:list,variables:list,greatest_common_divisor:int):
         """Particular solution of DE
 
         Args:
             values (list): [P0,Q0]
             variables (list): Diophantine input
-            gcd (int): Greatest Common Divisor
+            greatest_common_divisor (int): Greatest Common Divisor
 
         Returns:
             list: Partial particular solution, not multiplied
@@ -168,46 +168,46 @@ def diophantine_equation(variables:list,constant:int):
         maxVar=max(variables)
         minVar=min(variables)
         arr=[]
-        if minVar*maxVal+maxVar*minVal == gcd:
+        if minVar*maxVal+maxVar*minVal == greatest_common_divisor:
             arr=[maxVal,minVal]
-        if minVar*maxVal-maxVar*minVal == gcd:
+        if minVar*maxVal-maxVar*minVal == greatest_common_divisor:
             arr=[maxVal,-minVal]
-        if -minVar*maxVal+maxVar*minVal == gcd:
+        if -minVar*maxVal+maxVar*minVal == greatest_common_divisor:
             arr=[-maxVal,minVal]
-        if -minVar*maxVal-maxVar*minVal == gcd:
+        if -minVar*maxVal-maxVar*minVal == greatest_common_divisor:
             arr=[maxVal,minVal]
         
-        if minVar*minVal+maxVar*maxVal == gcd:
+        if minVar*minVal+maxVar*maxVal == greatest_common_divisor:
             arr=[minVal,maxVal]
-        if minVar*minVal-maxVar*maxVal == gcd:
+        if minVar*minVal-maxVar*maxVal == greatest_common_divisor:
             arr=[minVal,-maxVal]
-        if -minVar*minVal+maxVar*maxVal == gcd:
+        if -minVar*minVal+maxVar*maxVal == greatest_common_divisor:
             arr=[-minVal,maxVal]
-        if -minVar*minVal-maxVar*maxVal == gcd:
+        if -minVar*minVal-maxVar*maxVal == greatest_common_divisor:
             arr=[minVal,maxVal]
         
         if variables[0]==minVar:
             return arr
         return [arr[1],arr[0]]
-    def getGeneric(particular_solution:list,variables:list,gcd:int):
+    def get_generic(particular_solution:list,variables:list,greatest_common_divisor:int):
         """Generic Solution of DE
 
         Args:
             particular_solution (list): Multiplied partial particular solution
             variables (list): Diophantine input
-            gcd (int): Greatest Common Divisor
+            greatest_common_divisor (int): Greatest Common Divisor
 
         Returns:
             list: Generic solution
         """
-        maxVar=abs(max(variables))//gcd
-        minVar=abs(min(variables))//gcd
+        maxVar=abs(max(variables))//greatest_common_divisor
+        minVar=abs(min(variables))//greatest_common_divisor
         if variables[0]<variables[1]:
             return [int(math.copysign(1,-particular_solution[0]))*maxVar,int(math.copysign(1,-particular_solution[1]))*minVar]
         return [int(math.copysign(1,-particular_solution[0]))*minVar,int(math.copysign(1,-particular_solution[1]))*maxVar]
     
-    gcd,hist=GCDn(variables,[False,True])
-    if GCDn([gcd,constant],[False])!=gcd:
+    greatest_common_divisor,hist=gcd(variables,[False,True])
+    if gcd([greatest_common_divisor,constant],[False])!=greatest_common_divisor:
         return [[None,None],[None,None]]
     p0=[1,0]
     q0=[0,1]
@@ -216,9 +216,9 @@ def diophantine_equation(variables:list,constant:int):
         p0=[p0[1],p0[0]+mul*p0[1]]
         q0=[q0[1],q0[0]+mul*q0[1]]
         
-    particular_p_solution=getParticular([p0[0],q0[0]],variables,gcd)
-    particular_solution=[particular_p_solution[0]*constant//gcd,particular_p_solution[1]*constant//gcd]
-    generic_solution=getGeneric(particular_solution,variables,gcd)
+    particular_p_solution=get_particular([p0[0],q0[0]],variables,greatest_common_divisor)
+    particular_solution=[particular_p_solution[0]*constant//greatest_common_divisor,particular_p_solution[1]*constant//greatest_common_divisor]
+    generic_solution=get_generic(particular_solution,variables,greatest_common_divisor)
     return particular_solution, generic_solution
 
 

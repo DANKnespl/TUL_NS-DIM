@@ -1,14 +1,14 @@
 import discreteMath as DIM
 
-def cv01_GCD():
+def cv01_gcd():
     #největší společný dělitel
     variables = [13240210688278768,792388011857606]
-    DIM.GCDn(variables,[True])
+    DIM.gcd(variables,[True])
 
 def cv02_functions():
     #Eulerova funkce a součet dělitelů
     variables = [445815279,19864845]
-    gcd = DIM.GCDn([DIM.euler_function(variables[0]),DIM.euler_function(variables[1])],[False])
+    gcd = DIM.gcd([DIM.euler_function(variables[0]),DIM.euler_function(variables[1])],[False])
     div_sum = DIM.sum_of_divisors(gcd)
     print(f"GCD(\u03A6({variables[0]}),\u03A6({variables[1]})) = {gcd}\n\u03A3(GCD(\u03A6({variables[0]}),\u03A6({variables[1]}))) = {div_sum}")
 
@@ -26,4 +26,6 @@ def cv03_dioph():
     print(f"x = {xy[0]}\ny = {xy[1]}")
 
 if __name__=="__main__":
-    print()
+    cv01_gcd()
+    cv02_functions()
+    cv03_dioph()
