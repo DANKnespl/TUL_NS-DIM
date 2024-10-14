@@ -41,9 +41,9 @@ def gcd(values:list,flags:list):
         num1=a
         num2=b
         history = []
-        if a<b:
-            num1=b
-            num2=a
+        #if a<b:
+        #    num1=b
+        #    num2=a
         while(num2!=0):
             tmp = divmod(num1,num2)
             history.append([num1, num2, tmp])
@@ -209,18 +209,30 @@ def diophantine_equation(variables:list,constant:int):
     greatest_common_divisor,hist=gcd(variables,[False,True])
     if gcd([greatest_common_divisor,constant],[False])!=greatest_common_divisor:
         return [[None,None],[None,None]]
-    p0=[1,0]
-    q0=[0,1]
-    for step in hist[0]:
-        mul=step[2][0]
-        p0=[p0[1],p0[0]+mul*p0[1]]
-        q0=[q0[1],q0[0]+mul*q0[1]]
-        
+    p0,q0 = continued_fraction(variables,len(hist[0][0]))
+
     particular_p_solution=get_particular([p0[0],q0[0]],variables,greatest_common_divisor)
     particular_solution=[particular_p_solution[0]*constant//greatest_common_divisor,particular_p_solution[1]*constant//greatest_common_divisor]
     generic_solution=get_generic(particular_solution,variables,greatest_common_divisor)
     return particular_solution, generic_solution
 
+def continued_fraction(variables:list, terminator:int):
+    _,hist=gcd(variables,[False,True])
+    p0=[1,hist[0][0][2][0]]
+    q0=[0,1]
+    n=0
+    for step in hist[0]:
+        mul=step[2][0]
+        if n!=0:
+            p0=[p0[1],p0[0]+mul*p0[1]]
+            q0=[q0[1],q0[0]+mul*q0[1]]
+        if n==terminator:
+            break
+        n+=1
+    print(f"{p0[1]}/{q0[1]}")
+    return p0,q0
 
 if __name__=="__main__":
     print("Running wrong script")
+    continued_fraction([1618033988749895,1000000000000000],5)
+
