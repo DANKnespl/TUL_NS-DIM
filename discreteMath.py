@@ -202,18 +202,25 @@ def diophantine_equation(variables:list,constant:int):
         """
         maxVar=abs(max(variables))//greatest_common_divisor
         minVar=abs(min(variables))//greatest_common_divisor
+        
+        
         if variables[0]<variables[1]:
+            if particular_solution[0]==particular_solution[1]:
+                return [-maxVar,minVar]
             return [int(math.copysign(1,-particular_solution[0]))*maxVar,int(math.copysign(1,-particular_solution[1]))*minVar]
+        if particular_solution[0]==particular_solution[1]:
+                return [-minVar,maxVar]
         return [int(math.copysign(1,-particular_solution[0]))*minVar,int(math.copysign(1,-particular_solution[1]))*maxVar]
-    
+        
     greatest_common_divisor,hist=gcd(variables,[False,True])
     if gcd([greatest_common_divisor,constant],[False])!=greatest_common_divisor:
         return [[None,None],[None,None]]
-    p0,q0 = continued_fraction(variables,len(hist[0][0]))
+    p0,q0 = continued_fraction(variables,len(hist[0]))
 
     particular_p_solution=get_particular([p0[0],q0[0]],variables,greatest_common_divisor)
     particular_solution=[particular_p_solution[0]*constant//greatest_common_divisor,particular_p_solution[1]*constant//greatest_common_divisor]
     generic_solution=get_generic(particular_solution,variables,greatest_common_divisor)
+    print(particular_solution,generic_solution)
     return particular_solution, generic_solution
 
 def continued_fraction(variables:list, terminator:int):
