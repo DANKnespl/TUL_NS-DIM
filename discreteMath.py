@@ -220,7 +220,6 @@ def diophantine_equation(variables:list,constant:int):
     particular_p_solution=get_particular([p0[0],q0[0]],variables,greatest_common_divisor)
     particular_solution=[particular_p_solution[0]*constant//greatest_common_divisor,particular_p_solution[1]*constant//greatest_common_divisor]
     generic_solution=get_generic(particular_solution,variables,greatest_common_divisor)
-    print(particular_solution,generic_solution)
     return particular_solution, generic_solution
 
 def continued_fraction(variables:list, terminator:int):
