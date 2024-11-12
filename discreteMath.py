@@ -222,7 +222,6 @@ def diophantine_equation(variables:list,constant:int):
     particular_solution=[particular_p_solution[0]*constant//greatest_common_divisor,particular_p_solution[1]*constant//greatest_common_divisor]
     generic_solution=get_generic(particular_solution,variables,greatest_common_divisor)
     return particular_solution, generic_solution
-
 def continued_fraction(variables:list, terminator:int, flags:list=[False,True]):
     """Contunued Fraction solver\n
     
@@ -252,14 +251,15 @@ def continued_fraction(variables:list, terminator:int, flags:list=[False,True]):
         return p0,q0,n
     return p0,q0
 
-def congruence(a:int,b:int,modulo:int):
+def congruence(variables:list):
     """Linear congruence solver\n
     a*x congruent b (modulo)
 
     Args:
+        variables (list): [a,b,m]
         a (int): a in equation
         b (int): b in equation
-        modulo (int): modulo in equation
+        m (int): modulo in equation
 
     Returns:
         None|list|int: value of x which solve the congruence
@@ -267,23 +267,28 @@ def congruence(a:int,b:int,modulo:int):
                         int - 1 x solves
                         list - multiple x solve
     """
-    d = gcd([a,modulo])
+    
+    m=variables[2]
+    a=variables[0]%m
+    b=variables[1]%m
+    d = gcd([a,m])
     if d==1:
-        fraction_data = continued_fraction([modulo,a],100,[True,False])
+        fraction_data = continued_fraction([m,a],100,[True,False])
         n = fraction_data[2]
-        return (pow(-1,n-1)*fraction_data[0][0]*b)%15
+        return (pow(-1,n-1)*fraction_data[0][0]*b)%m
     if b%d==0:
         a_1=a/d
         b_1=b/d
-        m_1=modulo/d
-        x_0=int(congruence(a_1,b_1,m_1))
+        m_1=m/d
+        x_0=int(congruence([a_1,b_1,m_1]))
         outputs=[]
         for i in range(0,d):
-            outputs.append(int((x_0+i*m_1)%modulo))
+            outputs.append(int((x_0+i*m_1)%m))
         return outputs
     return None
 
 def congrunce_system():
+    
     print("WIP")
     
 if __name__=="__main__":

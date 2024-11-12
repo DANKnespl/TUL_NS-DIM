@@ -72,5 +72,6 @@ if __name__=="__main__":
     #cv04_aproximation()
     #cv05_Zap1()
     #print(DIM.lcm([12,15,21,14]))
-    print(DIM.congruence(7,3,15))
-    print(DIM.congruence(3,3,15))
+    print(DIM.congruence([7,3,15]))
+    print(DIM.congruence([2,7,14]))
+    print(DIM.congruence([3,3,15]))
