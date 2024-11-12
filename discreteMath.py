@@ -1,5 +1,6 @@
 import dimUtils as extras
 import math
+import numpy as np
 
 def lcm(values:list):
     """Lowest Common Multiple for arbitrary number of integers
@@ -22,7 +23,7 @@ def lcm(values:list):
         multiple=lcm2(values[i],multiple)
     print(f"LCM({values}) = {multiple}")
     return multiple
-def gcd(values:list,flags:list):
+def gcd(values:list,flags:list=[False,False]):
     """Greatest Common Divisor for arbitrary number of integers
 
     Args:
@@ -222,7 +223,17 @@ def diophantine_equation(variables:list,constant:int):
     generic_solution=get_generic(particular_solution,variables,greatest_common_divisor)
     return particular_solution, generic_solution
 
-def continued_fraction(variables:list, terminator:int):
+def continued_fraction(variables:list, terminator:int, flags:list=[False,True]):
+    """Contunued Fraction solver\n
+    
+    Args:
+        variables (list): [1. starting numerator, 2. starting denumerator]
+        terminator (int): maximum number of iterations
+        flags (list, optional): [add number of iterations to output]. Defaults to [False,True].
+
+    Returns:
+        list: [last two numerators, last two denumerators, ?number of iterations]
+    """
     _,hist=gcd(variables,[False,True])
     p0=[1,hist[0][0][2][0]]
     q0=[0,1]
@@ -235,9 +246,46 @@ def continued_fraction(variables:list, terminator:int):
         if n==terminator:
             break
         n+=1
-    print(f"{p0[1]}/{q0[1]}")
+    if flags[1]:
+        print(f"{p0[1]}/{q0[1]}")
+    if flags[0]:
+        return p0,q0,n
     return p0,q0
 
+def congruence(a:int,b:int,modulo:int):
+    """Linear congruence solver\n
+    a*x congruent b (modulo)
+
+    Args:
+        a (int): a in equation
+        b (int): b in equation
+        modulo (int): modulo in equation
+
+    Returns:
+        None|list|int: value of x which solve the congruence
+                        None - no x solves
+                        int - 1 x solves
+                        list - multiple x solve
+    """
+    d = gcd([a,modulo])
+    if d==1:
+        fraction_data = continued_fraction([modulo,a],100,[True,False])
+        n = fraction_data[2]
+        return (pow(-1,n-1)*fraction_data[0][0]*b)%15
+    if b%d==0:
+        a_1=a/d
+        b_1=b/d
+        m_1=modulo/d
+        x_0=int(congruence(a_1,b_1,m_1))
+        outputs=[]
+        for i in range(0,d):
+            outputs.append(int((x_0+i*m_1)%modulo))
+        return outputs
+    return None
+
+def congrunce_system():
+    print("WIP")
+    
 if __name__=="__main__":
     print("Running wrong script")
     continued_fraction([1618033988749895,1000000000000000],5)
