@@ -30,5 +30,11 @@ def diaphantine_solution(solution,k):
     xy=[particular_solution[0]+k*generic_solution[0],particular_solution[1]+k*generic_solution[1]]
     return xy
 
+def congruence_fix(variables):
+    if type(variables[0])==list:
+        return [variables[0][0],variables[0][1]-variables[0][0]]
+    return variables
+
+
 if __name__=="__main__":
     print("Running wrong script")

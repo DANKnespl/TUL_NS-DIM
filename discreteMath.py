@@ -1,6 +1,5 @@
 import dimUtils as extras
 import math
-import numpy as np
 
 def lcm(values:list):
     """Lowest Common Multiple for arbitrary number of integers
@@ -286,10 +285,60 @@ def congruence(variables:list):
             outputs.append(int((x_0+i*m_1)%m))
         return outputs
     return None
-
-def congrunce_system():
+def congruence_system(variables:list):
+    """Solves system of n linear congruences like ax congruent b (m)
     
-    print("WIP")
+    Args:
+        variables (list): [[a_0,b_0,m_0],...,[a_n,b_n,m_m]]
+    Returns:
+        list: [int,int] [b,m] (congruence)
+        None: 0 solutions
+    """
+    
+    def congruence_system_setup():
+        """Transforms list of generic ax congruent b (m) equations [a,b,m]
+        to x congruent b (m) [b,m]
+
+        Returns:
+            list: [int,int]      [[b_0,m_0],...,[b_n,m_n]]
+        """
+        new_variables = []
+        for cong in variables:
+            new_cong = congruence(cong)
+            if new_cong==None:
+                return None
+            new_variables.append(extras.congruence_fix([new_cong,cong[2]]))
+        return new_variables
+    
+    def congruence_system_2(variables:list):
+        """Solves system of 2 linear congruences like x congruent b (m)
+
+        Args:
+            variables (list): [[b_0,m_0],[b_1,m_1]]
+
+        Returns:
+            list: [b,m] new congruence
+        """
+        c1 = variables[0]
+        c2 = variables[1]
+        c_temp = [c1[1],c2[0]-c1[0],c2[1]]
+        c_new = extras.congruence_fix([congruence(c_temp),c2[1]])
+        if c_new[0]==None:
+            return None
+        return [c1[0]+c1[1]*c_new[0],c1[1]*c_new[1]]
+    
+    
+    new_variables = congruence_system_setup()
+    if new_variables == None:
+        return None
+    fin_congruence = new_variables[0]
+    
+    for i in range(1,len(new_variables)):
+        fin_congruence=congruence_system_2([fin_congruence,new_variables[i]])
+        if fin_congruence == None:
+            return None
+    
+    return fin_congruence
     
 if __name__=="__main__":
     print("Running wrong script")
