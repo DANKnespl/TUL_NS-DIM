@@ -268,8 +268,8 @@ def congruence(variables:list):
     """
     
     m=variables[2]
-    a=variables[0]%m
-    b=variables[1]%m
+    a=variables[0]
+    b=variables[1]
     d = gcd([a,m])
     if d==1:
         fraction_data = continued_fraction([m,a],100,[True,False])

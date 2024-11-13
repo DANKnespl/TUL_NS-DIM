@@ -64,6 +64,24 @@ def cv05_Zap1():
     numbers = [115115,30498]
     DIM.gcd(numbers,[True])
     DIM.lcm(numbers)
+    
+def cv06_kongruence():
+    print("\nSoustava lineárních kongruencí 1")
+    equations = [[1,5,12],[1,1,16],[1,8,21]]
+    for eq in equations:
+        DIM.extras.congruence_print(eq)
+    cong = DIM.congruence_system(equations)
+    print()
+    DIM.extras.congruence_print(cong)
+    
+def cv07_kongruence():
+    print("\nSoustava lineárních kongruencí 2")
+    equations = [[1,6,12],[1,2,14],[1,3,15],[1,9,21]]
+    for eq in equations:
+        DIM.extras.congruence_print(eq)
+    cong = DIM.congruence_system(equations)
+    print()
+    DIM.extras.congruence_print(cong)
 
 if __name__=="__main__":
     #cv01_gcd()
@@ -71,7 +89,6 @@ if __name__=="__main__":
     #cv03_dioph()
     #cv04_aproximation()
     #cv05_Zap1()
-    #print(DIM.lcm([12,15,21,14]))
-    print(DIM.congruence_system([[1,5,12],[1,1,16],[1,8,21]]))
-    
+    #cv06_kongruence()
+    cv07_kongruence()
     

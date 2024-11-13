@@ -35,6 +35,13 @@ def congruence_fix(variables):
         return [variables[0][0],variables[0][1]-variables[0][0]]
     return variables
 
+def congruence_print(cong):
+    if len(cong)==2:
+        print(f"x ≡ {cong[0]} ({cong[1]})")
+    elif len(cong)==3:
+        print(f"{cong[0]}x ≡ {cong[1]} ({cong[2]})")
+    else:
+        print("No solution")
 
 if __name__=="__main__":
     print("Running wrong script")
