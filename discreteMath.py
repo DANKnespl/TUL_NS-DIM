@@ -339,6 +339,77 @@ def congruence_system(variables:list):
             return None
     
     return fin_congruence
+   
+def isGroup(value_set:list,function,mod:int = 0):
+    """Decides if (set,function) pair creates a group
+
+    Args:
+        value_set (list): set of values
+        function (function(a,b)): binary function taking two operands => function(a,b)
+        mod (int, optional): Modulo of set. Defaults to maximum value in set + 1.
+
+    Returns:
+        Tupple: if Group => (True, neutral_element, isComutative():boolean)
+                else     => ({'Invertible': boolean, 'Closed': boolean, 'Asociative': boolean}, neutral_element, isComutative():boolean)
+    """
+    value_set = list(set(value_set))
+    if mod == 0:
+        mod = value_set[-1] + 1
+    
+    def isClosed():
+        for val in value_set:
+            for val2 in value_set:
+                if val!=val2:
+                    if function(val,val2)%mod not in value_set:
+                        return False
+        return True
+    
+    def isComutative():
+        for val in value_set:
+            for val2 in value_set:
+                if val!=val2:
+                    if function(val2,val)!=function(val,val2):
+                        return False
+        return True
+    
+    def isAsociative():
+        for a in value_set:
+            for b in value_set:
+                for c in value_set:
+                    if function(a,function(b,c))!=function(function(a,b),c):
+                        return False
+        return True
+    
+    def neutralElement():
+        neutral_element = None
+        tmp_neutral_element = False
+        for potential_e in value_set:
+            tmp_neutral_element = True
+            for a in value_set:
+                if function(a,potential_e)!=a:
+                    tmp_neutral_element = False
+            if tmp_neutral_element:
+                neutral_element = potential_e
+        return neutral_element
+    
+    def isInvertible(neutral_element):
+        if neutral_element is None:
+            return False
+        for a in value_set:
+            invertible = False
+            for b in value_set:
+                if function(a,b)%mod == neutral_element:
+                    invertible = True
+            if not invertible:
+                return False
+        return True
+    
+    
+    neutral_element = neutralElement()
+    if isInvertible(neutral_element)&isClosed()&isAsociative():
+        return isInvertible(neutral_element)&isClosed()&isAsociative(),neutral_element,isComutative()
+    return {"Invertible":isInvertible(neutral_element),"Closed":isClosed(),"Asociative":isAsociative()},neutral_element,isComutative()
+    
     
 if __name__=="__main__":
     print("Running wrong script")

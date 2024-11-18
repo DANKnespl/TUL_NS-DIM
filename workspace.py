@@ -1,4 +1,5 @@
 import discreteMath as DIM
+import binary_functions as bf
 
 def cv01_gcd():
     #největší společný dělitel
@@ -83,6 +84,15 @@ def cv07_kongruence():
     print()
     DIM.extras.congruence_print(cong)
 
+def cv08_grupy():
+    #testing stuff
+    print(DIM.isGroup([0,1,2,3,4],bf.sum))
+    print(DIM.isGroup([1,2,3,4],bf.sum))
+    print(DIM.isGroup([0,1,2,3,4],bf.mul))
+    print(DIM.isGroup([1,3,5,7],bf.mul))
+    print(DIM.isGroup([0,2,6,4,8],bf.sum,10))
+    
+
 if __name__=="__main__":
     #cv01_gcd()
     #cv02_functions()
@@ -90,5 +100,5 @@ if __name__=="__main__":
     #cv04_aproximation()
     #cv05_Zap1()
     #cv06_kongruence()
-    cv07_kongruence()
-    
+    #cv07_kongruence()
+    cv08_grupy()
